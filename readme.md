@@ -1,6 +1,6 @@
 # Sobre
 
-- Repositório responsável pelo projeto missing pets.
+- Repositório da Api responsável pelo projeto missing pets.
 - Com o foco em auxiliar as pessoas, aprender e melhorar nas tecnologias:
   ```
   - PHP, 
@@ -11,7 +11,8 @@
   - Rabbitmq 
   - SQL.
   ```
-  
+- Link para o repositório contendo o front do projeto: -
+
 # Hospedagem
 
 - Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio https://www.ejsocial.com/
