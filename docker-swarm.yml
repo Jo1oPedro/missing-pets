@@ -6,7 +6,7 @@ services:
       - swarm
     volumes:
       - ./app:/var/www/app
-      - ./nginx-sites.conf:/etc/nginx/sites-enabled/default.conf
+      - ./docker/nginx/sites.conf:/etc/nginx/sites-enabled/default.conf
     deploy:
       replicas: 1
       resources:
