@@ -1,10 +1,35 @@
 # Sobre
 
-Neste repositório vamos fazer a criação de uma imagem Docker que embora possa ser utilizada em produção, ainda merece ser aperfeiçoada para permitir realmente o escalonamento da aplicação.
+- Repositório responsável pelo projeto missing pets.
+- Com o foco em auxiliar as pessoas, aprender e melhorar nas tecnologias:
+  ```
+  - PHP, 
+  - Swoole, 
+  - Laravel,
+  - Laravel Octane
+  - Redis, 
+  - Rabbitmq 
+  - SQL.
+  ```
+  
+# Hospedagem
+
+- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio https://www.ejsocial.com/
+- Configurações da vps:
+    ```
+  - Núcleos de CPU: 2
+  - Memória: 8 GB
+  - Largura de Banda: 8 TB
+  - Espaço em disco: 100 GB
+    ```
+  
+# Repositório da Imagem Docker: 
+
+- https://hub.docker.com/repository/docker/jo1opedro/php83-missing-pets-api-2024/general 
 
 # Conteúdo da Imagem Docker
 
-- <b>PHP</b>, e diversas extensões e Libs do PHP, incluindo php-redis, pgsql, mysql, entre outras.
+- <b>PHP</b>, e diversas extensões e Libs do PHP, incluindo php-redis, mysql, swoole, memcached.
 
 - <b>Nginx</b>, como proxy reverso/servidor. Por fim de testes é que o Nginx está presente nesta imagem, em um momento de otimização está imagem deixará de ter o Nginx.
 
@@ -12,11 +37,7 @@ Neste repositório vamos fazer a criação de uma imagem Docker que embora possa
 
 - <b>Composer</b>, afinal de contas é preciso baixar as dependências mais atuais toda vez que fomos crontruir uma imagem Docker.
 
-# Vídeos Tutorial
-
-[Vídeo Sobre Criação do Dockerfile e do Docker Compose file](https://youtu.be/iDJjb2zYa4c)
-
-# Passo a Passo
+# Passo a Passo para execução
 
 ## Certifique-se de estar com o Docker em execução.
 
@@ -29,8 +50,6 @@ docker ps
 ```sh
 docker compose version
 ```
-
-## Clone sua aplicação Laravel para a pasta 'app'. Caso a pasta app não existe, crie a pasta.
 
 A listagem de pastas do projeto deve ficar:
 
