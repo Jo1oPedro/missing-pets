@@ -15,7 +15,7 @@
 
 # Hospedagem
 
-- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio https://www.ejsocial.com/
+- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio https://www.ejsocial.com/ ou ip: http://85.31.62.148:9000/ | https://85.31.62.148:7000
 - Configurações da vps:
     ```
   - Núcleos de CPU: 2
