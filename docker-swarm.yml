@@ -25,7 +25,7 @@ services:
       - "7000:443"
 
   # Redis
-  banco_em_memoria:
+  redis:
     image: redis:alpine
     ports:
       - "6379:6379"
