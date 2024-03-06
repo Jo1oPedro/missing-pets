@@ -19,8 +19,8 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "80:80"
-      - "443:443"
+      - "9000:80"
+      - "7000:443"
 
 networks:
   swarm:
