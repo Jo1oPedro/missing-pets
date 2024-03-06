@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: o1opedro/php83-missing-pets-api-2024:v1
+    image: jo1opedro/php83-missing-pets-api-2024:v1
     networks:
       - swarm
     volumes:
