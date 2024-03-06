@@ -1,5 +1,7 @@
 version: "3.9"
 services:
+
+  # Api
   web:
     image: jo1opedro/php83-missing-pets-api-2024:v1
     networks:
@@ -21,6 +23,34 @@ services:
     ports:
       - "9000:80"
       - "7000:443"
+
+  # Redis
+  banco_em_memoria:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./redis:/data"
+    networks:
+      - swarm
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 200M
+        reservations:
+          cpus: "0.1"
+          memory: 20M
+      restart_policy:
+        condition: on-failure
 
 networks:
   swarm:
