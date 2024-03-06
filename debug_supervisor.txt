@@ -1,0 +1,2 @@
+Para verificar o status do supervisor: supervisorctl status
+Para debugar o supervisor: supervisorctl tail laravel-octane

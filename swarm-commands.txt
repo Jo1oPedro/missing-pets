@@ -1,0 +1,8 @@
+Iniciar o swarm: sudo docker swarm init
+sudo docker network create -d overlay --attachable swarm
+sudo docker stack deploy -c docker-swarm.yml app
+
+debugar swarm: docker service ps --no-trunc app_web
+parar o swarm: docker swarm leave --force
+
+sudo docker run -p 9000:80 jo1opedro/php83-missing-pets-api-2024:v1
