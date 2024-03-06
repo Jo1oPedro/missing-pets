@@ -12,4 +12,4 @@ services:
        - ./app:/var/www/app
     ports:
       - "9000:80" #http
-      - "8000:443" #https
+      - "7000:443" #https
