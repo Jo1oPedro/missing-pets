@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  api:
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: '8.3.3-bullseye'
+    volumes:
+       - ./app:/var/www/app
+    ports:
+      - "80:80" #http
+      - "443:443" #https
