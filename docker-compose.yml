@@ -10,6 +10,38 @@ services:
         PHP_VERSION: '8.3.3-bullseye'
     volumes:
        - ./app:/var/www/app
+    networks:
+      - missing-pets
     ports:
       - "9000:80" #http
       - "7000:443" #https
+    # Redis
+  redis:
+      image: redis:alpine
+      ports:
+        - "6379:6379"
+      volumes:
+        - "./app/redis:/data"
+      networks:
+        - missing-pets
+      healthcheck:
+        test:
+          - CMD
+          - redis-cli
+          - ping
+        retries: 3
+        timeout: 5s
+      deploy:
+        replicas: 1
+        resources:
+          limits:
+            cpus: "0.5"
+            memory: 200M
+          reservations:
+            cpus: "0.1"
+            memory: 20M
+        restart_policy:
+          condition: on-failure
+
+networks:
+    missing-pets:
