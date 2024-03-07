@@ -207,7 +207,7 @@ return [
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],*/
-            'supervisor-1-workers-high' => [
+            'horizon-workers-high' => [
                 'connection' => 'redis',
                 'queue' => ['high'],
                 'balance' => 'auto',
@@ -219,7 +219,7 @@ return [
                 'tries' => 2,
                 'timeout' => 60,
             ],
-            'supervisor-1-workers-default' => [
+            'horizon-workers-default' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
@@ -231,7 +231,7 @@ return [
                 'tries' => 2,
                 'timeout' => 60,
             ],
-            'supervisor-1-workers-low' => [
+            'horizon-workers-low' => [
                 'connection' => 'redis',
                 'queue' => ['low'],
                 'balance' => 'auto',
@@ -249,7 +249,7 @@ return [
             /*'supervisor-1' => [
                 'maxProcesses' => 3,
             ],*/
-            'supervisor-1-workers-high' => [
+            'horizon-workers-high' => [
                 'connection' => 'redis',
                 'queue' => ['high'],
                 'balance' => 'auto',
@@ -261,7 +261,7 @@ return [
                 'tries' => 2,
                 'timeout' => 60,
             ],
-            'supervisor-1-workers-default' => [
+            'horizon-workers-default' => [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'auto',
@@ -273,7 +273,7 @@ return [
                 'tries' => 2,
                 'timeout' => 60,
             ],
-            'supervisor-1-workers-low' => [
+            'horizon-workers-low' => [
                 'connection' => 'redis',
                 'queue' => ['low'],
                 'balance' => 'auto',

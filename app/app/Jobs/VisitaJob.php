@@ -28,4 +28,10 @@ class VisitaJob implements ShouldQueue
         sleep(random_int(1, 20));
         $this->ip;
     }
+
+    public function tags(): array
+    {
+        return ['VisitaJob'];
+    }
+
 }
