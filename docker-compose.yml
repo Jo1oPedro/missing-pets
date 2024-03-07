@@ -1,5 +1,7 @@
 version: "3.9"
 services:
+
+  # api
   api:
     image: jo1opedro/php83-missing-pets-api-2024:v1
     container_name: web
@@ -15,7 +17,34 @@ services:
     ports:
       - "9000:80" #http
       - "7000:443" #https
-    # Redis
+
+  pgsql:
+    image: 'postgres:15'
+    ports:
+      - '${FORWARD_DB_PORT:-5432}:5432'
+    environment:
+      PGPASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+    volumes:
+      #- 'sail-pgsql:/var/lib/postgresql/data'
+      - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+    networks:
+      - missing-pets
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - '-q'
+        - '-d'
+        - '${DB_DATABASE}'
+        - '-U'
+        - '${DB_USERNAME}'
+      retries: 3
+      timeout: 5s
+
+  # Redis
   redis:
       image: redis:alpine
       ports:
