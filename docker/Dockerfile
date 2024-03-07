@@ -10,7 +10,8 @@ ARG REDIS_LIB_VERSION=5.3.7
 ### apt-utils é um extensão de recursos do gerenciador de pacotes APT
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     apt-utils \ 
-    supervisor
+    supervisor \
+    nano
 
 # dependências recomendadas de desenvolvido para ambiente linux
 RUN apt-get update && apt-get install -y \
