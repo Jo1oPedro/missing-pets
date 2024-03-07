@@ -1,10 +1,10 @@
 version: "3.9"
 services:
 
-  # api
-  api:
+  # api-1
+  api-01: &api
     image: jo1opedro/php83-missing-pets-api-2024:v1
-    container_name: web
+    container_name: missing-pets-api-1
     build:
       context: .
       dockerfile: ./docker/Dockerfile
@@ -14,9 +14,22 @@ services:
        - ./app:/var/www/app
     networks:
       - missing-pets
+    environment:
+      LARAVEL_OCTANE_PORT: '8000'
     ports:
-      - "9000:80" #http
-      - "7000:443" #https
+      - "9000:8000"
+
+  # api-2
+  api-02:
+    <<: *api
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: missing-pets-api-2
+    networks:
+      - missing-pets
+    environment:
+      LARAVEL_OCTANE_PORT: '7000'
+    ports:
+      - "8000:7000"
 
   pgsql:
     image: 'postgres:15'
@@ -27,9 +40,9 @@ services:
       POSTGRES_DB: '${DB_DATABASE}'
       POSTGRES_USER: '${DB_USERNAME}'
       POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
-    volumes:
+    #volumes:
       #- 'sail-pgsql:/var/lib/postgresql/data'
-      - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+      #- './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
     networks:
       - missing-pets
     healthcheck:
@@ -71,6 +84,20 @@ services:
             memory: 20M
         restart_policy:
           condition: on-failure
+
+  #nginx
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/nginx/sites.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/access.log:/var/log/nginx/access.log
+    depends_on:
+      - api-01
+      - api-02
+    ports:
+      - "8888:8888"
+    networks:
+      - missing-pets
 
 networks:
     missing-pets:

@@ -57,10 +57,10 @@ RUN php artisan clear-compiled
 RUN php artisan optimize
 
 ### NGINX
-RUN apt-get install nginx -y
-RUN rm -rf /etc/nginx/sites-enabled/* && rm -rf /etc/nginx/sites-available/*
-COPY ./docker/nginx/sites.conf /etc/nginx/sites-enabled/default.conf
-COPY ./docker/nginx/error.html /var/www/html/error.html
+#RUN apt-get install nginx -y
+#RUN rm -rf /etc/nginx/sites-enabled/* && rm -rf /etc/nginx/sites-available/*
+#COPY ./docker/nginx/sites.conf /etc/nginx/sites-enabled/default.conf
+#COPY ./docker/nginx/error.html /var/www/html/error.html
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # RUN apt update -y && apt install nano git -y
