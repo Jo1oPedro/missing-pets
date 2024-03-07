@@ -24,7 +24,7 @@ Route::get('/', function () {
     } catch (\Throwable $th) {
     }
 
-    VisitaJob::dispatch(request()->ip())->delay(now()->addSeconds(15));
+    VisitaJob::dispatch(request()->ip())->delay(now()->addSeconds(15))->onQueue('high');
 
     return view('welcome')->with('views', $views);
 });
