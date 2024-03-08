@@ -68,4 +68,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
+#CMD ["php", "/var/www/app/artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=$LARAVEL_OCTANE_PORT"]
+#RUN php artisan octane:start --server=swoole --host=0.0.0.0 --port=$LARAVEL_OCTANE_PORT
+
+#ENV FULL_COMMAND_PHP=${FULL_COMMAND}
+#CMD ["sh", "-c", "${FULL_COMMAND}"]
 #CMD ["php", "artisan", "octane:start", "--host=0.0.0.0"]
+#CMD exec php artisan octane:start --server=swoole --host=0.0.0.0 --port=$LARAVEL_OCTANE_PORT
