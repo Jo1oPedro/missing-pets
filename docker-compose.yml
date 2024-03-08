@@ -35,31 +35,43 @@ services:
     ports:
       - "6000:7000"
 
-  pgsql:
-    image: 'postgres:15'
+  # mysql
+  banco_de_dados_relacional:
+    image: mysql:latest
+    expose:
+      - "3306"
     ports:
-      - '${FORWARD_DB_PORT:-5432}:5432'
+      - '5306:3306'
+    restart: unless-stopped
+    env_file:
+      - ./app/.env
     environment:
-      PGPASSWORD: '${DB_PASSWORD:-secret}'
-      POSTGRES_DB: '${DB_DATABASE}'
-      POSTGRES_USER: '${DB_USERNAME}'
-      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
-    #volumes:
-      #- 'sail-pgsql:/var/lib/postgresql/data'
-      #- './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    volumes:
+      - ./docker/backup_banco_de_dados_relacional/database:/var/lib/mysql
     networks:
       - missing-pets
-    healthcheck:
-      test:
-        - CMD
-        - pg_isready
-        - '-q'
-        - '-d'
-        - '${DB_DATABASE}'
-        - '-U'
-        - '${DB_USERNAME}'
-      retries: 3
-      timeout: 5s
+
+  # phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    expose:
+      - "80"
+    ports:
+      - "8003:80"
+    volumes:
+      - ./docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    environment:
+      #PMA_ARBITRARY: 1
+      PMA_HOST: banco_de_dados_relacional
+    depends_on:
+      - banco_de_dados_relacional
+    networks:
+      - missing-pets
 
   # Redis
   redis:
