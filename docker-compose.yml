@@ -14,6 +14,8 @@ services:
        - ./app:/var/www/app
     networks:
       - missing-pets
+    env_file:
+      - ./app/.env
     environment:
       LARAVEL_OCTANE_PORT: '8000'
     ports:
@@ -26,6 +28,8 @@ services:
     container_name: missing-pets-api-2
     networks:
       - missing-pets
+    env_file:
+      - ./app/.env
     environment:
       LARAVEL_OCTANE_PORT: '7000'
     ports:
