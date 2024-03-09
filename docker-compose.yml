@@ -52,8 +52,6 @@ services:
     ports:
       - '5306:3306'
     restart: unless-stopped
-    env_file:
-      - ./app/.env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
