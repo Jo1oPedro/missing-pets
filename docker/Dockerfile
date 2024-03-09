@@ -50,9 +50,11 @@ RUN cd $APP_DIR
 RUN chown www-data:www-data $APP_DIR
 
 COPY --chown=www-data:www-data ./app .
-RUN rm -rf vendor
+#RUN rm -rf vendor
+
 RUN composer install --no-interaction
 RUN php artisan octane:install --server=swoole
+#RUN composer update --no-interaction
 
 RUN php artisan clear-compiled
 RUN php artisan optimize
