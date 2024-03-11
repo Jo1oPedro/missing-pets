@@ -2,6 +2,7 @@
 
 use App\Jobs\VisitaJob;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +31,22 @@ Route::get('/', function () {
 });
 Route::get('/dale', function () {
     return 'dale123';
+});
+
+Route::get('/documentation', function () {
+    $filePath = public_path('api-documentation/index.html'); // Replace with your actual file path
+
+    if (!Storage::disk('local')->exists($filePath)) {
+        abort(404, 'File not found'); // Handle non-existent files gracefully
+    }
+
+    $fileContents = Storage::disk('local')->get($filePath);
+    $mimeType = 'text/html'; // Set the MIME type explicitly for HTML
+
+    $headers = [
+        'Content-Type' => $mimeType,
+        'Content-Disposition' => 'attachment; filename="api-documentation.html"', // Set attachment disposition for saving
+    ];
+
+    return response($fileContents, 200, $headers);
 });

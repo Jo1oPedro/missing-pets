@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API missing-pets Swagger Documentation",
+        "contact": {
+            "email": "joao.pedreira@estudante.ufjf.br"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Sanctum Authentication"
+                ],
+                "summary": "Get a autentication user token",
+                "description": "This endpoints return a new token user authentication for use on protected endpoints",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "device_name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel_nunes@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "IOS"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "plainTextToken": {
+                                            "type": "string",
+                                            "example": "2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect."
+                                        },
+                                        "errors": {
+                                            "type": "string",
+                                            "example": "..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerToken": {
+                "type": "http",
+                "description": "Acess token obtido na autenticação",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
