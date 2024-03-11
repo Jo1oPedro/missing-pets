@@ -26,37 +26,56 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * @OA\POST(
-     *  tags={"Sanctum Authentication"},
-     *  summary="Get a autentication user token",
-     *  description="This endpoints return a new token user authentication for use on protected endpoints",
-     *  path="/api/login",
-     *  @OA\RequestBody(
-     *      @OA\MediaType(
-     *          mediaType="multipart/form-data",
-     *          @OA\Schema(
-     *              required={"email","password","device_name"},
-     *              @OA\Property(property="email", type="string", example="gabriel_nunes@example.org"),
-     *              @OA\Property(property="password", type="string", example="#sdasd$ssdaAA@"),
-     *              @OA\Property(property="device_name", type="string", example="IOS"),
+     * @OA\Post(
+     *     path="/api/login",
+     *     tags={"Sanctum Authentication"},
+     *     summary="Get an authentication user token",
+     *     description="This endpoint returns a new token user authentication for use on protected endpoints",
+     *     operationId="login",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 required={"email","password"},
+     *                 @OA\Property(property="email", type="string", example="gabriel_nunes@example.org"),
+     *                 @OA\Property(property="password", type="string", example="#sdasd$ssdaAA@")
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token generated",
+     *     @OA\JsonContent(
+     *         @OA\Property(
+     *             property="data",
+     *             type="object",
+     *             required={"token", "token_type", "expires_in"},
+     *             @OA\Property(
+     *                 property="token",
+     *                 type="string",
+     *                 description="The access token"
+     *             ),
+     *             @OA\Property(
+     *                 property="token_type",
+     *                 type="string",
+     *                 enum={"bearer"},
+     *                 description="The type of token"
+     *             ),
+     *             @OA\Property(
+     *                 property="expires_in",
+     *                 type="integer",
+     *                 description="The expiration time of the token in seconds"
+     *             )
      *          )
-     *      ),
-     *  ),
-     *  @OA\Response(
-     *    response=200,
-     *    description="Token generated",
-     *    @OA\JsonContent(
-     *       @OA\Property(property="plainTextToken", type="string", example="2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj")
-     *    )
-     *  ),
-     *  @OA\Response(
-     *    response=401,
-     *    description="Incorrect credentials",
-     *    @OA\JsonContent(
-     *       @OA\Property(property="message", type="string", example="The provided credentials are incorrect."),
-     *       @OA\Property(property="errors", type="string", example="..."),
-     *    )
-     *  )
+     *      )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Incorrect credentials",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The provided credentials are incorrect.")
+     *         )
+     *     )
      * )
      */
     public function login(Request $request)
@@ -64,7 +83,7 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if(!$token = auth()->attempt($credentials)) {
-            abort(401);
+            abort(401, 'The provided credentials are incorrect.');
         }
 
         return response()->json([

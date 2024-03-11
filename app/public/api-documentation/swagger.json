@@ -13,17 +13,16 @@
                 "tags": [
                     "Sanctum Authentication"
                 ],
-                "summary": "Get a autentication user token",
-                "description": "This endpoints return a new token user authentication for use on protected endpoints",
-                "operationId": "222b2625838e3c57e017987f73598fda",
+                "summary": "Get an authentication user token",
+                "description": "This endpoint returns a new token user authentication for use on protected endpoints",
+                "operationId": "login",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
                                     "email",
-                                    "password",
-                                    "device_name"
+                                    "password"
                                 ],
                                 "properties": {
                                     "email": {
@@ -33,10 +32,6 @@
                                     "password": {
                                         "type": "string",
                                         "example": "#sdasd$ssdaAA@"
-                                    },
-                                    "device_name": {
-                                        "type": "string",
-                                        "example": "IOS"
                                     }
                                 },
                                 "type": "object"
@@ -51,9 +46,30 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "plainTextToken": {
-                                            "type": "string",
-                                            "example": "2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"
+                                        "data": {
+                                            "required": [
+                                                "token",
+                                                "token_type",
+                                                "expires_in"
+                                            ],
+                                            "properties": {
+                                                "token": {
+                                                    "description": "The access token",
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "description": "The type of token",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "bearer"
+                                                    ]
+                                                },
+                                                "expires_in": {
+                                                    "description": "The expiration time of the token in seconds",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -70,10 +86,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "The provided credentials are incorrect."
-                                        },
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "..."
                                         }
                                     },
                                     "type": "object"
