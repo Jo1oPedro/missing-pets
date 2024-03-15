@@ -63,10 +63,6 @@
                                                     "enum": [
                                                         "bearer"
                                                     ]
-                                                },
-                                                "expires_in": {
-                                                    "description": "The expiration time of the token in seconds",
-                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"
