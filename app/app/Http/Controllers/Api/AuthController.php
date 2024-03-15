@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Info(
@@ -61,11 +63,6 @@ class AuthController extends Controller
      *                 enum={"bearer"},
      *                 description="The type of token"
      *             ),
-     *             @OA\Property(
-     *                 property="expires_in",
-     *                 type="integer",
-     *                 description="The expiration time of the token in seconds"
-     *             )
      *          )
      *      )
      *     ),
@@ -80,17 +77,19 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        /** @var User $user */
+        $user = User::where('email', $request->email)->first();
 
-        if(!$token = auth()->attempt($credentials)) {
+        if(!$user || !Hash::check($request->password, $user->password)) {
             abort(401, 'The provided credentials are incorrect.');
         }
+
+        $token = $user->createToken(env('SECRET'))->plainTextToken;
 
         return response()->json([
             'data' => [
                 'token' => $token,
                 'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
             ]
         ]);
     }
