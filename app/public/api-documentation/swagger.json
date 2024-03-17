@@ -63,6 +63,110 @@
                                                     "enum": [
                                                         "bearer"
                                                     ]
+                                                },
+                                                "expires_in": {
+                                                    "description": "The expiration time of the token in minutes",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "User Register"
+                ],
+                "summary": "Register a new user",
+                "description": "This endpoint register a new user and returns his autentication code",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "User's email address. Must be unique.",
+                                        "type": "string",
+                                        "example": "gabriel"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel_nunes@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirmation of the password. Must match the password field.",
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "required": [
+                                                "token",
+                                                "token_type",
+                                                "expires_in"
+                                            ],
+                                            "properties": {
+                                                "token": {
+                                                    "description": "The access token",
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "description": "The type of token",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "bearer"
+                                                    ]
+                                                },
+                                                "expires_in": {
+                                                    "description": "The expiration time of the token in minutes",
+                                                    "type": "integer"
                                                 }
                                             },
                                             "type": "object"

@@ -63,6 +63,11 @@ class AuthController extends Controller
      *                 enum={"bearer"},
      *                 description="The type of token"
      *             ),
+     *             @OA\Property(
+     *                 property="expires_in",
+     *                 type="integer",
+     *                 description="The expiration time of the token in minutes"
+     *             )
      *          )
      *      )
      *     ),
@@ -90,6 +95,7 @@ class AuthController extends Controller
             'data' => [
                 'token' => $token,
                 'token_type' => 'bearer',
+                'expires_in' => env('TOKEN_EXPIRATION')
             ]
         ]);
     }
