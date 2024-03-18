@@ -42,7 +42,7 @@ services:
     environment:
       LARAVEL_OCTANE_PORT: '7000'
     ports:
-      - "10000:7000"
+      - "9003:7000"
 
   # mysql
   banco_de_dados_relacional:
