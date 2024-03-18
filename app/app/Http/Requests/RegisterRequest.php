@@ -35,7 +35,7 @@ class RegisterRequest extends FormRequest
             'required' => 'O campo :attribute é obrigatório.',
             'string' => 'O campo :attribute precisa ser um texto válido.',
             'password.confirmed' => 'As senhas não são correspondentes.',
-            'unique' => 'O atributo :attribute já está em uso.',
+            'unique' => 'O campo :attribute já está em uso.',
             'email' => 'O campo :attribute precisa ser um e-mail válido.',
         ];
     }
