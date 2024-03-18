@@ -10,13 +10,24 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        DB::table('users')->truncate();
+    }
+
     public function testSuccessFullLogin()
     {
-        $user = User::factory()->create();
+        $this->post('/api/register', [
+            'name' => 'cascata',
+            'email' => 'cascata@gmail.com',
+            'password' => '12345678',
+            'password_confirmation' => '12345678'
+        ]);
 
         $response = $this->post('/api/login', [
-           'email' => $user->email,
-           'password' => 'password'
+           'email' => 'cascata@gmail.com',
+           'password' => '12345678'
         ]);
 
         $response->assertStatus(200);
