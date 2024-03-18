@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\UserRegistered;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -68,6 +70,9 @@ class RegisterController extends Controller
         /** @var User $user */
         $user = User::create($request->validated());
         $token = $user->createToken(env('SECRET'))->plainTextToken;
+
+        Mail::to($user)->queue(new UserRegistered($user->name));
+
         return response()->json([
             'data' => [
                 'token' => $token,
