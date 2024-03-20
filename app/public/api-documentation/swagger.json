@@ -96,6 +96,91 @@
                 }
             }
         },
+        "/api/pet/posts": {
+            "get": {
+                "tags": [
+                    "Pet posts"
+                ],
+                "summary": "Get all pet posts paginated",
+                "description": "This endpoint return all pet posts paginated",
+                "operationId": "getPetPosts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number (optional)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "description": "The current page paginated",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The posts returned",
+                                            "type": "object"
+                                        },
+                                        "first_page_url": {
+                                            "description": "The url from the first 15 posts",
+                                            "type": "string"
+                                        },
+                                        "last_page": {
+                                            "description": "The number of the last page",
+                                            "type": "string"
+                                        },
+                                        "last_page_url": {
+                                            "description": "The url from the last 15 posts",
+                                            "type": "string"
+                                        },
+                                        "links": {
+                                            "description": "The url to the previous and next page",
+                                            "type": "object"
+                                        },
+                                        "next_page_url": {
+                                            "description": "The url to the next page",
+                                            "type": "string"
+                                        },
+                                        "per_page": {
+                                            "description": "The number of posts per page",
+                                            "type": "string"
+                                        },
+                                        "prev_page_url": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        },
+                                        "total": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -199,7 +284,7 @@
     },
     "components": {
         "securitySchemes": {
-            "bearerToken": {
+            "bearerAuth": {
                 "type": "http",
                 "description": "Acess token obtido na autenticação",
                 "name": "Authorization",

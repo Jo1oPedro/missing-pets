@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Hash;
  *  in="header",
  *  scheme="bearer",
  *  bearerFormat="JWT",
- *  securityScheme="bearerToken"
+ *  securityScheme="bearerAuth"
  * )
  */
 class AuthController extends Controller
