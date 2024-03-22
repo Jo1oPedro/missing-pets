@@ -8,12 +8,11 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class AuthControllerTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
-        DB::table('users')->delete();
     }
 
     public function testSuccessFullLogin()

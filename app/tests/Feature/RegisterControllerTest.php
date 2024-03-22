@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Nette\Schema\ValidationException;
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+class RegisterControllerTest extends TestCase
 {
     public function setUp(): void
     {

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PetPost;
 use Illuminate\Http\Request;
 
-class PetPostsController extends Controller
+class PetPostController extends Controller
 {
     /**
      * @OA\Get(
