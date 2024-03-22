@@ -13,7 +13,7 @@ class LoginTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        DB::table('users')->truncate();
+        DB::table('users')->delete();
     }
 
     public function testSuccessFullLogin()
@@ -50,6 +50,6 @@ class LoginTest extends TestCase
 
     public function tearDown(): void
     {
-        DB::table('users')->truncate();
+        DB::table('users')->delete();
     }
 }
