@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\PetPostsController;
+use App\Http\Controllers\Api\PetPostController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-   Route::resource('pet/posts', PetPostsController::class);
+   Route::resource('pet/posts', PetPostController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
