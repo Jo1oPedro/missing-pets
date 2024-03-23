@@ -10,8 +10,7 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         PHP_VERSION: '8.3.3-bullseye'
-    volumes:
-       - ./app:/var/www/app
+      target: "${BUILD_TARGET:-app}"
     networks:
       - missing-pets
     env_file:

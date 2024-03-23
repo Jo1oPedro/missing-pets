@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+
+  # api-1
+  api-01: &api
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: missing-pets-api-1
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: '8.3.3-bullseye'
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - missing-pets
+    env_file:
+      - ./app/.env
+    environment:
+      LARAVEL_OCTANE_PORT: '8000'
+    ports:
+      - "7080:8000"
+
+  # api-2
+  api-02:
+    <<: *api
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: missing-pets-api-2
+    networks:
+      - missing-pets
+    environment:
+      LARAVEL_OCTANE_PORT: '7000'
+    ports:
+      - "4000:7000"
+
+networks:
+  missing-pets:
