@@ -1,5 +1,5 @@
 ARG PHP_VERSION
-FROM php:${PHP_VERSION}
+FROM php:${PHP_VERSION} as app
 
 ## Diretório da aplicação
 ARG APP_DIR=/var/www/app
@@ -38,11 +38,10 @@ RUN docker-php-ext-enable swoole
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./docker/supervisord/supervisord.octane.conf /etc/supervisor/conf.d/supervisord.conf
-#COPY ./docker/supervisord/conf /etc/supervisord.d/
 ### Supervisor permite monitorar e controlar vários processos (LINUX)
 ### Bastante utilizado para manter processos em Daemon, ou seja, executando em segundo plano
 
-COPY ./docker/php/extra-php.ini "$PHP_INI_DIR/99_extra.ini"
+COPY ./docker/php/extra-php.ini "$PHP_INI_DIR/conf.d"
 #COPY ./docker/php/extra-php-fpm.conf /etc/php8/php-fpm.d/www.conf
 
 WORKDIR $APP_DIR
@@ -54,26 +53,17 @@ COPY --chown=www-data:www-data ./app .
 
 RUN composer install --no-interaction
 RUN php artisan octane:install --server=swoole
-#RUN composer update --no-interaction
+RUN composer update --no-interaction
 
 RUN php artisan clear-compiled
 RUN php artisan optimize
 
-### NGINX
-#RUN apt-get install nginx -y
-#RUN rm -rf /etc/nginx/sites-enabled/* && rm -rf /etc/nginx/sites-available/*
-#COPY ./docker/nginx/sites.conf /etc/nginx/sites-enabled/default.conf
-#COPY ./docker/nginx/error.html /var/www/html/error.html
-
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-# RUN apt update -y && apt install nano git -y
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
-#CMD ["php", "/var/www/app/artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=$LARAVEL_OCTANE_PORT"]
-#RUN php artisan octane:start --server=swoole --host=0.0.0.0 --port=$LARAVEL_OCTANE_PORT
+FROM app as app_dev
 
-#ENV FULL_COMMAND_PHP=${FULL_COMMAND}
-#CMD ["sh", "-c", "${FULL_COMMAND}"]
-#CMD ["php", "artisan", "octane:start", "--host=0.0.0.0"]
-#CMD exec php artisan octane:start --server=swoole --host=0.0.0.0 --port=$LARAVEL_OCTANE_PORT
+RUN pecl install xdebug;
+RUN docker-php-ext-enable xdebug
+COPY ./docker/php/extra-php.ini "${PHP_INI_DIR}/conf.d"
