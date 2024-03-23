@@ -10,8 +10,6 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         PHP_VERSION: '8.3.3-bullseye'
-        LARAVEL_OCTANE_PORT: '8000'
-        FULL_COMMAND: "php /var/www/app/artisan octane:start --server=swoole --host=0.0.0.0 --port=8000"
     volumes:
        - ./app:/var/www/app
     networks:
@@ -28,17 +26,8 @@ services:
     <<: *api
     image: jo1opedro/php83-missing-pets-api-2024:v1
     container_name: missing-pets-api-2
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        PHP_VERSION: '8.3.3-bullseye'
-        LARAVEL_OCTANE_PORT: '7000'
-        FULL_COMMAND: "php /var/www/app/artisan octane:start --server=swoole --host=0.0.0.0 --port=7000"
     networks:
       - missing-pets
-    env_file:
-      - ./app/.env
     environment:
       LARAVEL_OCTANE_PORT: '7000'
     ports:
