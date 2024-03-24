@@ -5,6 +5,9 @@ services:
   api-01: &api
     image: jo1opedro/php83-missing-pets-api-2024:v1
     container_name: missing-pets-api-1
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
     build:
       context: .
       dockerfile: ./docker/Dockerfile
