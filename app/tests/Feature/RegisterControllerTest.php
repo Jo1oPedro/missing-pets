@@ -48,6 +48,6 @@ class RegisterControllerTest extends TestCase
 
     public function tearDown(): void
     {
-        DB::table('users')->delete();
+        parent::tearDown();
     }
 }

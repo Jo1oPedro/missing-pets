@@ -27,4 +27,9 @@ abstract class TestCase extends BaseTestCase
         }
         throw new \Exception('Invalid key requested.');
     }
+
+    public function tearDown(): void
+    {
+        Artisan::call('migrate:fresh');
+    }
 }
