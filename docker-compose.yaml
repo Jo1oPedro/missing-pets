@@ -18,7 +18,7 @@ services:
     environment:
       LARAVEL_OCTANE_PORT: '8000'
     ports:
-      - "7080:8000"
+      - "7070:8000"
 
   # api-2
   api-02:
@@ -30,7 +30,7 @@ services:
     environment:
       LARAVEL_OCTANE_PORT: '7000'
     ports:
-      - "4000:7000"
+      - "4080:7000"
 
   # mysql
   banco_de_dados_relacional:
