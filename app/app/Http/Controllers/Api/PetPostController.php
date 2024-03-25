@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PetPostRequest;
 use App\Models\PetPost;
 use Illuminate\Http\Request;
 
@@ -91,25 +92,18 @@ class PetPostController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = 15;
+        $perPage = (int) $request->input('paginate', 15);
         $pageNumber = (int) $request->input('page', 1);
         return PetPost::paginate($perPage, ['*'], 'page', $pageNumber);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PetPostRequest $request)
     {
-        //
+        $petPost = PetPost::create($request->post());
+        return response()->json(['data' => $petPost], 201);
     }
 
     /**

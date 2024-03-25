@@ -75,4 +75,33 @@ class PetPostControllerTest extends TestCase
             ]
         ]);
     }
+
+    public function test_can_not_create_pet_post_successfully()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->json(
+            'POST',
+            '/api/pet/posts',
+            [
+                'user_id' => -1,
+                'coordinate_x' => random_int(1, 10000),
+                'coordinate_y' => random_int(1, 10000),
+                'breed' => fake()->name,
+                'type' => fake()->name,
+                'additional_info' => fake()->text(100)
+            ]
+        );
+
+        $response->assertStatus(422);
+        $response->assertJsonStructure(
+            [
+                'message',
+                'errors' => [
+                    '*' => []
+                ]
+            ]
+        );
+    }
 }
