@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-   Route::resource('pet/posts', PetPostController::class);
+   Route::resource('/pet/posts', PetPostController::class);
 });
 
 Route::post('/login', [AuthController::class, 'login']);
