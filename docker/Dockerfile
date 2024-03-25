@@ -22,13 +22,13 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libxml2-dev
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml pcntl
+RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
 
 # habilita instalação do Redis
 RUN pecl install redis-${REDIS_LIB_VERSION} \
-    && docker-php-ext-enable redis 
+    && docker-php-ext-enable redis
 
-RUN docker-php-ext-install zip iconv simplexml pcntl gd fileinfo
+#RUN docker-php-ext-install zip iconv simplexml pcntl gd fileinfo
 
 ### Instalar e Habilitar o Swoole
 RUN pecl install swoole
@@ -66,4 +66,4 @@ FROM app as app_dev
 
 RUN pecl install xdebug;
 RUN docker-php-ext-enable xdebug
-COPY ./docker/php/extra-php.ini "${PHP_INI_DIR}/conf.d"
+#RUN echo "zend_extension=xdebug.so" > "${PHP_INI_DIR}/conf.d/extra-php.ini"
