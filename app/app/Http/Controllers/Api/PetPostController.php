@@ -98,7 +98,84 @@ class PetPostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/api/pet/posts",
+     *      tags={"Pet posts"},
+     *      summary="Register a new pet post",
+     *      description="This endpoint register a new pet post",
+     *      operationId="registerPetPost",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"user_id","coordinate_x","coordinate_y","breed","type","additional_info"},
+     *                  @OA\Property(property="user_id", type="integer", example=1, description="User's id."),
+     *                  @OA\Property(property="coordinate_x", type="integer", example=1),
+     *                  @OA\Property(property="coordinate_y", type="integer", example=1),
+     *                  @OA\Property(property="breed", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="type", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="additional_info", type="string", example="#sdasd$ssdaAA@")
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *              property="data",
+     *              type="object",
+     *              required={"user_id", "coordinate_x", "coordinate_y", "breed", "type", "additional_info", "updated_at", "created_at", "id"},
+     *              @OA\Property(
+     *                  property="user_id",
+     *                  type="integer",
+     *                  description="The access User's id its vinculated"
+     *              ),
+     *              @OA\Property(
+     *                  property="coordinate_x",
+     *                  type="integer",
+     *                  description="Coordenate x where the pet was last seen"
+     *              ),
+     *              @OA\Property(
+     *                   property="coordinate_y",
+     *                   type="integer",
+     *                   description="Coordenate y where the pet was last seen"
+     *               ),
+     *              @OA\Property(
+     *                   property="breed",
+     *                   type="string",
+     *                   description="Breed of the lost animal"
+     *               ),
+ *                 @OA\Property(
+     *                  property="type",
+     *                  type="string",
+     *                  description=""
+     *              ),
+     *             @OA\Property(
+     *                 property="additional_info",
+     *                 type="string",
+     *                 description="Additional info to help find the pet"
+     *              ),
+     *            @OA\Property(
+     *                property="updated_at",
+     *                type="string",
+     *                description=""
+     *              ),
+     *            @OA\Property(
+     *                property="created_at",
+     *                type="string",
+     *                description=""
+     *              ),
+     *            @OA\Property(
+     *               property="id",
+     *               type="integer",
+     *               description=""
+     *              ),
+     *           )
+     *          )
+     *      )
+     *  )
      */
     public function store(PetPostRequest $request)
     {
