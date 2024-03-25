@@ -10,11 +10,6 @@ use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testSuccessFullLogin()
     {
         $this->post('/api/register', [
@@ -45,10 +40,5 @@ class AuthControllerTest extends TestCase
         ]);
 
         $response->assertStatus(401);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
     }
 }

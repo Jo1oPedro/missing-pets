@@ -8,12 +8,6 @@ use Tests\TestCase;
 
 class RegisterControllerTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        DB::table('users')->delete();
-    }
-
     public function testSuccessfulRegister(): void
     {
         $response = $this->post('/api/register', [
@@ -44,10 +38,5 @@ class RegisterControllerTest extends TestCase
         } catch (ValidationException $exception) {
             $this->assertArrayHasKey('errors', $response->json());
         }
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
     }
 }
