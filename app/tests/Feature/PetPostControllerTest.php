@@ -9,10 +9,11 @@ use Tests\TestCase;
 
 class PetPostControllerTest extends TestCase
 {
+    private $url = "/api/pet/posts";
     /**
      * A basic feature test example.
      */
-    public function get_pet_posts_paginated_sucessfully(): void
+    public function test_can_get_pet_posts_paginated_sucessfully(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -41,5 +42,37 @@ class PetPostControllerTest extends TestCase
                     "total",
                 ]
             );
+    }
+
+    public function test_can_create_pet_post_sucessfully()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $response = $this->post(
+            '/api/pet/posts',
+            [
+                'user_id' => $user->id,
+                'coordinate_x' => random_int(1, 10000),
+                'coordinate_y' => random_int(1, 10000),
+                'breed' => fake()->name,
+                'type' => fake()->name,
+                'additional_info' => fake()->text(100)
+            ]
+        );
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            "data" => [
+                "user_id",
+                "coordinate_x",
+                "coordinate_y",
+                "breed",
+                "type",
+                "additional_info",
+                "updated_at",
+                "created_at",
+                "id"
+            ]
+        ]);
     }
 }
