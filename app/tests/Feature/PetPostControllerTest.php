@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\PetPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -103,5 +104,41 @@ class PetPostControllerTest extends TestCase
                 ]
             ]
         );
+    }
+
+    public function test_can_get_specific_pet_post()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        PetPost::factory()->create();
+
+        $response = $this->json(
+            'GET',
+            $this->url . '/1'
+        );
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'created_at',
+                    'updated_at',
+                    'user_id',
+                    'coordinate_x',
+                    'coordinate_y',
+                    'breed',
+                    'type',
+                    'additional_info',
+                    'user' => [
+                        'id',
+                        'name',
+                        'email',
+                        'email_verified_at',
+                        'created_at',
+                        'updated_at'
+                    ]
+                ]
+            ]);
     }
 }
