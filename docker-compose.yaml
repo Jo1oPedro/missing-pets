@@ -35,8 +35,6 @@ services:
   # mysql
   banco_de_dados_relacional:
     image: mysql:latest
-    expose:
-      - "3306"
     ports:
       - '5306:3306'
     restart: unless-stopped
