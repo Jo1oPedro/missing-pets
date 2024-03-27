@@ -184,11 +184,117 @@ class PetPostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\GET(
+     *      path="/api/pet/posts/{id}",
+     *      tags={"Pet posts"},
+     *      summary="Register a new pet post",
+     *      description="This endpoint register a new pet post",
+     *      operationId="getSpecificPetPost",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *           name="id",
+     *           in="path",
+     *           required=true,
+     *           description="The ID of the pet post",
+     *           @OA\Schema(type="integer")
+     *       ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *              property="data",
+     *              type="object",
+     *              required={"user_id", "coordinate_x", "coordinate_y", "breed", "type", "additional_info", "updated_at", "created_at", "id", "user"},
+     *                  @OA\Property(
+     *                      property="user_id",
+     *                      type="integer",
+     *                      description="The access User's id its vinculated"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="coordinate_x",
+     *                      type="integer",
+     *                      description="Coordenate x where the pet was last seen"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="coordinate_y",
+     *                      type="integer",
+     *                      description="Coordenate y where the pet was last seen"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="breed",
+     *                      type="string",
+     *                      description="Breed of the lost animal"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="type",
+     *                      type="string",
+     *                      description=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="additional_info",
+     *                      type="string",
+     *                      description="Additional info to help find the pet"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="updated_at",
+     *                      type="string",
+     *                      description=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="created_at",
+     *                      type="string",
+     *                      description=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      description=""
+     *                  ),
+     *                  @OA\Property(
+     *                      property="data",
+     *                      type="object",
+     *                      required={"id", "name", "email", "email_verified_at", "created_at", "updated_at"},
+     *                      @OA\Property(
+     *                          property="id",
+     *                          type="integer",
+     *                          description=""
+     *                      ),
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string",
+     *                          description=""
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email",
+     *                          type="string",
+     *                          description=""
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email_verified_at",
+     *                          type="string",
+     *                          description=""
+     *                      ),
+     *                      @OA\Property(
+     *                          property="created_at",
+     *                          type="string",
+     *                          description=""
+     *                      ),
+     *                      @OA\Property(
+     *                          property="updated_at",
+     *                          type="string",
+     *                          description=""
+     *                      ),
+     *                  )
+     *              )
+     *          )
+     *      )
+     *  )
      */
     public function show(string $id)
     {
-        //
+        $petPost = PetPost::with('user')->find($id);
+        return response()->json(['data' => $petPost]);
     }
 
     /**
