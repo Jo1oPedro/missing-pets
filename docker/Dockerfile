@@ -28,8 +28,6 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip 
 RUN pecl install redis-${REDIS_LIB_VERSION} \
     && docker-php-ext-enable redis
 
-#RUN docker-php-ext-install zip iconv simplexml pcntl gd fileinfo
-
 ### Instalar e Habilitar o Swoole
 RUN pecl install swoole
 RUN docker-php-ext-enable swoole
