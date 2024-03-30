@@ -12,7 +12,7 @@ services:
         PHP_VERSION: '8.3.3-bullseye'
       target: "${BUILD_TARGET:-app}"
     networks:
-      - missing-pets
+      - my-shared-network
     env_file:
       - ./app/.env
     environment:
@@ -26,7 +26,7 @@ services:
     image: jo1opedro/php83-missing-pets-api-2024:v1
     container_name: missing-pets-api-2
     networks:
-      - missing-pets
+      - my-shared-network
     environment:
       LARAVEL_OCTANE_PORT: '7000'
     ports:
@@ -46,7 +46,7 @@ services:
     volumes:
       - ./docker/backup_banco_de_dados_relacional/database:/var/lib/mysql
     networks:
-      - missing-pets
+      - my-shared-network
 
   # phpmyadmin
   phpmyadmin:
@@ -62,7 +62,7 @@ services:
     depends_on:
       - banco_de_dados_relacional
     networks:
-      - missing-pets
+      - my-shared-network
 
   # Redis
   redis:
@@ -72,7 +72,7 @@ services:
       volumes:
         - "./app/redis:/data"
       networks:
-        - missing-pets
+        - my-shared-network
       healthcheck:
         test:
           - CMD
@@ -91,6 +91,17 @@ services:
             memory: 20M
         restart_policy:
           condition: on-failure
+      command: ["redis-server", "--bind", "0.0.0.0"]
+
+  #ui for redis
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "5540:5540"
+    volumes:
+      - ./docker/redis/ui:/db
+    networks:
+      - my-shared-network
 
   #nginx
   nginx:
@@ -104,7 +115,19 @@ services:
     ports:
       - "8888:8888"
     networks:
-      - missing-pets
+      - my-shared-network
+
+  mensageria:
+    image: rabbitmq:management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - my-shared-network
 
 networks:
-    missing-pets:
+  my-shared-network:
+    driver: bridge
