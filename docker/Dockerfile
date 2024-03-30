@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libxml2-dev
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
+RUN docker-php-ext-install sockets mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
 
 # habilita instalação do Redis
 RUN pecl install redis-${REDIS_LIB_VERSION} \
