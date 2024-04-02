@@ -11,6 +11,8 @@ services:
       args:
         PHP_VERSION: '8.3.3-bullseye'
       target: "${BUILD_TARGET:-app}"
+    volumes:
+      - ./app/public:/var/www/app/public
     networks:
       - my-shared-network
     env_file:
