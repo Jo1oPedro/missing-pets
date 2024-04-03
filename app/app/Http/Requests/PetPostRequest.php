@@ -28,7 +28,7 @@ class PetPostRequest extends FormRequest
             'breed' => 'required|string',
             'type' => 'required|string',
             'additional_info' => 'sometimes|string',
-            'photos[]' => 'sometimes|file|extensions:jpg,png'
+            'petPhotos[]' => 'sometimes|file|extensions:jpg,png'
         ];
     }
 
