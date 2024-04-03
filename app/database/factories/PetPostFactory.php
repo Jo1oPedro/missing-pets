@@ -18,6 +18,7 @@ class PetPostFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => fake()->name(),
             'user_id' => User::select('id')->inRandomOrder()->first()->id,
             'coordinate_x' => random_int(0, 10000),
             'coordinate_y' => random_int(0, 10000),
