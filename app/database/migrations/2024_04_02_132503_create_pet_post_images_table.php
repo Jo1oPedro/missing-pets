@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pet_post_photos', function (Blueprint $table) {
+        Schema::create('pet_post_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId("pet_post_id")->constrained();
             $table->string("image_path")->unique();
