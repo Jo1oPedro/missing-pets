@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 tests/coverage
+public/img/pet_images
