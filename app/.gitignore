@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 tests/coverage
 public/img/pet_images
+redis/dump.rdb
