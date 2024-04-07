@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Messaging;
+use App\DTO\PetPostDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PetPostRequest;
 use App\Models\PetPost;
+use App\Services\ImageUploader;
+use App\Services\PetPostImageUploader;
 use Illuminate\Http\Request;
+use PHPUnit\Exception;
 
 class PetPostController extends Controller
 {
+    public function __construct(
+        private Messaging $messaging,
+        private PetPostImageUploader $imageUploader
+    ) {}
+
     /**
      * @OA\Get(
      *      path="/api/pet/posts",
@@ -109,8 +119,9 @@ class PetPostController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"user_id","coordinate_x","coordinate_y","breed","type","additional_info"},
+     *                  required={"user_id","name","coordinate_x","coordinate_y","breed","type","additional_info"},
      *                  @OA\Property(property="user_id", type="integer", example=1, description="User's id."),
+     *                  @OA\Property(property="name", type="string", example=jack, description="Pet's name."),
      *                  @OA\Property(property="coordinate_x", type="integer", example=1),
      *                  @OA\Property(property="coordinate_y", type="integer", example=1),
      *                  @OA\Property(property="breed", type="string", example="#sdasd$ssdaAA@"),
@@ -126,11 +137,16 @@ class PetPostController extends Controller
      *              @OA\Property(
      *              property="data",
      *              type="object",
-     *              required={"user_id", "coordinate_x", "coordinate_y", "breed", "type", "additional_info", "updated_at", "created_at", "id"},
+     *              required={"user_id", "name", "coordinate_x", "coordinate_y", "breed", "type", "additional_info", "updated_at", "created_at", "id"},
      *              @OA\Property(
      *                  property="user_id",
      *                  type="integer",
      *                  description="The access User's id its vinculated"
+     *              ),
+     *              @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  description="The name of the pet"
      *              ),
      *              @OA\Property(
      *                  property="coordinate_x",
@@ -180,7 +196,19 @@ class PetPostController extends Controller
     public function store(PetPostRequest $request)
     {
         $petPost = PetPost::create($request->post());
-        return response()->json(['data' => $petPost], 201);
+        $this->messaging->publishMessage($petPost->id, 'cadastroPost')->destruct();
+        if($request->hasFile("pet_images")) {
+            try {
+                $this->imageUploader
+                    ->uploadFiles(
+                        $request->file("pet_images"),
+                        new PetPostDTO(...$petPost->toArray())
+                    );
+            } catch (Exception $exception) {
+                return response()->json(['error' => $exception->getMessage()], $exception->getCode());
+            }
+        }
+        return response()->json(['data' => $petPost->load("pet_post_images")], 201);
     }
 
     /**
