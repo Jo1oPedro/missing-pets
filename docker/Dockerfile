@@ -58,6 +58,8 @@ RUN php artisan optimize
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN chown -R www-data:www-data /var/www/app/storage
+RUN php artisan storage:link
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
 FROM app as app_dev
