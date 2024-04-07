@@ -6,6 +6,8 @@ use App\Models\PetPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PetPostControllerTest extends TestCase
@@ -49,21 +51,25 @@ class PetPostControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        $response = $this->post(
-            '/api/pet/posts',
+        $file = UploadedFile::fake()->image("avatar.png");
+        $response = $this->json(
+            "POST",
+            $this->url,
             [
+                "name" => fake()->name,
                 'user_id' => $user->id,
                 'coordinate_x' => random_int(1, 10000),
                 'coordinate_y' => random_int(1, 10000),
                 'breed' => fake()->name,
                 'type' => fake()->name,
-                'additional_info' => fake()->text(100)
+                'additional_info' => fake()->text(100),
+                "pet_images[]" => $file
             ]
         );
-
         $response->assertStatus(201);
         $response->assertJsonStructure([
             "data" => [
+                "name",
                 "user_id",
                 "coordinate_x",
                 "coordinate_y",
@@ -75,6 +81,7 @@ class PetPostControllerTest extends TestCase
                 "id"
             ]
         ]);
+        Storage::disk('avatars')->assertExists($file->hashName());
     }
 
     public function test_can_not_create_pet_post_successfully()
