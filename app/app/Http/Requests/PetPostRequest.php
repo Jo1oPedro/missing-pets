@@ -22,13 +22,14 @@ class PetPostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "name" => "required|string",
             'user_id' => 'required|exists:users,id',
             'coordinate_x' => 'required|integer',
             'coordinate_y' => 'required|integer',
             'breed' => 'required|string',
             'type' => 'required|string',
             'additional_info' => 'sometimes|string',
-            'petPhotos[]' => 'sometimes|file|extensions:jpg,png'
+            'pet_images[]' => 'image|mimes:jpg,png'
         ];
     }
 
