@@ -25,7 +25,12 @@ class PetPostImageUploader implements ImageUploader
         if(!$file->isValid()) {
             throw new InvalidArgumentException($file->getClientOriginalName() . " é invalido", 422);
         }
-        $imageName = $file->store("public/pet_images");
+        $imageName =
+            str_replace(
+                "public",
+                "storage",
+                $file->store("public/pet_images")
+            );
         PetPostImage::create(["pet_post_id" => $dto->getId(), "image_path" => $imageName]);
     }
 }
