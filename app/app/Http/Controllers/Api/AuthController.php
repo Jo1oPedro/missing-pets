@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -86,17 +87,17 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if(!$user || !Hash::check($request->password, $user->password)) {
-            abort(401, 'The provided credentials are incorrect.');
+            abort(401, 'As credenciais informadas estão incorretas.');
         }
 
-        $token = $user->createToken(env('SECRET'))->plainTextToken;
+        $expiresAt = Carbon::now()->addDays(30);
+        $token = $user->createToken(env('SECRET'), expiresAt: $expiresAt)->plainTextToken;
 
         return response()->json([
-            'data' => [
-                'token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => env('TOKEN_EXPIRATION')
-            ]
+            'user' => $user,
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => 60 * 24 * 30
         ]);
     }
 }
