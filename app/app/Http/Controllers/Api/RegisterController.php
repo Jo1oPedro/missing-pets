@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\UserRegistered;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
@@ -69,16 +70,16 @@ class RegisterController extends Controller
     {
         /** @var User $user */
         $user = User::create($request->validated());
-        $token = $user->createToken(env('SECRET'))->plainTextToken;
+        $expiresAt = Carbon::now()->addDays(30);
+        $token = $user->createToken(env('SECRET'), expiresAt: $expiresAt)->plainTextToken;
 
         Mail::to($user)->queue(new UserRegistered($user->name));
 
         return response()->json([
-            'data' => [
-                'token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => env('TOKEN_EXPIRATION')
-            ]
+            'user' => $user,
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => 60 * 24 * 30
         ]);
     }
 }
