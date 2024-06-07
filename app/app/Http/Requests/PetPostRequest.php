@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PetPostRequest extends FormRequest
 {
@@ -41,5 +43,15 @@ class PetPostRequest extends FormRequest
             'integer' => 'O campo :attribute precisa ser um inteiro valido.',
             'string' => 'O campo :attribute precisa ser um texto válido.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $response = response()->json([
+            'errors' => $validator->errors(),
+            'message' => 'Falha para criar o produto'
+        ], 422);
+
+        throw new HttpResponseException($response);
     }
 }
