@@ -104,7 +104,7 @@ class PetPostController extends Controller
     {
         $perPage = (int) $request->input('paginate', 15);
         $pageNumber = (int) $request->input('page', 1);
-        return PetPost::paginate($perPage, ['*'], 'page', $pageNumber);
+        return PetPost::with(["pet_post_images", "user"])->paginate($perPage, ['*'], 'page', $pageNumber);
     }
 
     /**
