@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('breed');
             $table->string('type');
             $table->text('additional_info')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete("cascade");
             $table->timestamps();
         });
     }
