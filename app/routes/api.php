@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\PetPostController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
@@ -44,3 +44,6 @@ Route::get('/storage/{filename}', function ($filename) {
     $response->header("Content-Type", $type);
     return $response;
 });
+
+Route::get('/auth/github/callback', [AuthController::class, 'callback'])
+    ->name('auth.callback');

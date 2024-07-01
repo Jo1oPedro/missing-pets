@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libpng-dev \
     libpq-dev \
-    libxml2-dev
+    libxml2-dev \
+    libbrotli-dev
 
 RUN docker-php-ext-install sockets mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
 
@@ -47,7 +48,7 @@ RUN cd $APP_DIR
 RUN chown www-data:www-data $APP_DIR
 
 COPY --chown=www-data:www-data ./app .
-#RUN rm -rf vendor
+RUN rm -rf vendor
 
 RUN composer install --no-interaction
 RUN php artisan octane:install --server=swoole

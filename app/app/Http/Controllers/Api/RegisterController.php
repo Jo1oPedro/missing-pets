@@ -69,7 +69,8 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         /** @var User $user */
-        $user = User::create($request->validated());
+        $data = array_merge($request->validated(), ["password" => "123456"]);
+        $user = User::create($data);
         $expiresAt = Carbon::now()->addDays(30);
         $token = $user->createToken(env('SECRET'), expiresAt: $expiresAt)->plainTextToken;
 

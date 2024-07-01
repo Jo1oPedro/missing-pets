@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Jobs\VisitaJob;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -50,3 +51,6 @@ Route::get('/documentation', function () {
 
     return response($fileContents, 200, $headers);
 });
+
+Route::get('/auth/github/redirect', [AuthController::class, 'redirect'])
+    ->name('auth.redirect');
