@@ -30,6 +30,5 @@ class AuthController
             'user' => $user,
             'token' => $token
         ]);
-        // More logic to handle login or registration will be added later
     }
 }
