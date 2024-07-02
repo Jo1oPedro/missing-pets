@@ -23,10 +23,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users,email',
+            'email' => 'required|string|email',
             "user_id" => "required|string",
-            "profile_url" => "required|string",
-            "avatar_url" => "nullable|string",
+            "avatar_url" => "required|string",
+            "html_url" => "required|string",
         ];
     }
 

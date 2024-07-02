@@ -68,19 +68,25 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
+        $data = $request->validated();
+
         /** @var User $user */
-        $data = array_merge($request->validated(), ["password" => "123456"]);
-        $user = User::create($data);
-        $expiresAt = Carbon::now()->addDays(30);
-        $token = $user->createToken(env('SECRET'), expiresAt: $expiresAt)->plainTextToken;
+        $user = User::updateOrCreate(
+            ['email' => $data['email']], // Critério de busca, e-mail deve estar aqui
+            [
+                'name' => $data['name'],
+                'user_id' => $data['user_id'],
+                'avatar_url' => $data['avatar_url'],
+                'html_url' => $data['html_url']
+            ]
+        );
+        $token = $user->createToken(env('SECRET'))->plainTextToken;
 
         Mail::to($user)->queue(new UserRegistered($user->name));
 
         return response()->json([
             'user' => $user,
             'token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => 60 * 24 * 30
         ]);
     }
 }
