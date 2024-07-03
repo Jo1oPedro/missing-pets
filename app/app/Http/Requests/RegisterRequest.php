@@ -27,6 +27,7 @@ class RegisterRequest extends FormRequest
             "user_id" => "required|string",
             "avatar_url" => "required|string",
             "html_url" => "required|string",
+            "access_token" => "required|string",
         ];
     }
 

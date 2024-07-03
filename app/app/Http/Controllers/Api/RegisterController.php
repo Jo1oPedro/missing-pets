@@ -77,7 +77,8 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'user_id' => $data['user_id'],
                 'avatar_url' => $data['avatar_url'],
-                'html_url' => $data['html_url']
+                'html_url' => $data['html_url'],
+                "access_token" => $data["access_token"],
             ]
         );
         $token = $user->createToken(env('SECRET'))->plainTextToken;
